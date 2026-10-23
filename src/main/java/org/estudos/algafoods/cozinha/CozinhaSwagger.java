@@ -30,7 +30,7 @@ public interface CozinhaSwagger {
                                                 "timestamp": "01/05/2025 20:21:08",
                                                 "status": 400,
                                                 "error": "Ocorreu erro ao salvar informações, verifique seus campos de preenchimentos",
-                                                "path": "/cozinha/create",
+                                                "path": "/api/cozinhas/create",
                                                 "message": "O campo NOME deve conter apenas letras"
                                             }
                                             """
@@ -134,7 +134,7 @@ public interface CozinhaSwagger {
                                                   "timestamp": "02/05/2025 08:56:09",
                                                   "status": 404,
                                                   "error": "Recurso não encontrado",
-                                                  "path": "/cozinha/detail/13333",
+                                                  "path": "/api/cozinhas/detail/13333",
                                                   "message": "Informações não encontradas para: 13333"
                                               }
                                             """
