@@ -28,10 +28,11 @@ public class SwaggerConfig {
                                 .name("Apache 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0")))
                 .components(new Components()
-                        .addSecuritySchemes("bearer-key", 
+                        .addSecuritySchemes("session-cookie",
                                 new SecurityScheme()
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")));
+                                        .type(SecurityScheme.Type.APIKEY)
+                                        .in(SecurityScheme.In.COOKIE)
+                                        .name("JSESSIONID")
+                                        .description("Sessao criada pelo login Google; o navegador envia o cookie automaticamente.")));
     }
 }
