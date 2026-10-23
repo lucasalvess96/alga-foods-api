@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("restaurante")
+@RequestMapping("/api/restaurantes")
 @CrossOrigin
 public class RestauranteController {
 
@@ -24,7 +24,8 @@ public class RestauranteController {
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<RestauranteDto> create(@RequestBody @Valid RestauranteDto restauranteDto) {
-        return ResponseEntity.created(URI.create("/create/")).body(restauranteService.create(restauranteDto));
+        RestauranteDto created = restauranteService.create(restauranteDto);
+        return ResponseEntity.created(URI.create("/api/restaurantes/detail/" + created.id())).body(created);
     }
 
     @GetMapping("/listar")
