@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("cozinha")
+@RequestMapping("/api/cozinhas")
 @CrossOrigin
 public class CozinhaController implements CozinhaSwagger {
 
@@ -28,7 +28,7 @@ public class CozinhaController implements CozinhaSwagger {
     @Override
     public ResponseEntity<CozinhaDto> create(@RequestBody @Valid CozinhaDto cozinha) {
         CozinhaDto created = cozinhaService.create(cozinha);
-        return ResponseEntity.created(URI.create("/cozinha/create/" + created.id())).body(created);
+        return ResponseEntity.created(URI.create("/api/cozinhas/detail/" + created.id())).body(created);
     }
 
     @GetMapping("/list")
