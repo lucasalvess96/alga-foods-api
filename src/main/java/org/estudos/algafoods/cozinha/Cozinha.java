@@ -36,7 +36,7 @@ public class Cozinha {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome == null ? null : nome.trim().toUpperCase();
     }
 
     public List<Restaurante> getRestaurantes() {
