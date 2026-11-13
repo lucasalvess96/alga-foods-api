@@ -1,6 +1,7 @@
 package org.estudos.algafoods.pedido;
 
 import jakarta.persistence.*;
+import org.estudos.algafoods.restaurante.Restaurante;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -32,6 +33,13 @@ public class Pedido {
 
     @Column(name = "data_cancelamento_pedido")
     private LocalDateTime dataCancelamentoPedido;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
+
+    public Restaurante getRestaurante() { return restaurante; }
+    public void setRestaurante(Restaurante restaurante) { this.restaurante = restaurante; }
 
     public Long getId() {
         return id;

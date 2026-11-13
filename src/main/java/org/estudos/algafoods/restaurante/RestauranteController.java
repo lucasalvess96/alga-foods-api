@@ -4,16 +4,16 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/restaurantes")
 @CrossOrigin
-public class RestauranteController {
+public class RestauranteController implements RestauranteSwagger {
 
     private final RestauranteService restauranteService;
 
@@ -23,32 +23,37 @@ public class RestauranteController {
 
     @PostMapping("/create")
     @Transactional
+    @Override
     public ResponseEntity<RestauranteDto> create(@RequestBody @Valid RestauranteDto restauranteDto) {
-        RestauranteDto created = restauranteService.create(restauranteDto);
-        return ResponseEntity.created(URI.create("/api/restaurantes/detail/" + created.id())).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(restauranteService.create(restauranteDto));
     }
 
     @GetMapping("/listar")
+    @Override
     public ResponseEntity<List<RestauranteDto>> listarCozinhas() {
         return ResponseEntity.ok(restauranteService.listar());
     }
 
     @GetMapping("/pagination")
+    @Override
     public ResponseEntity<Page<RestauranteDto>> pagination(Pageable pageable) {
         return ResponseEntity.ok(restauranteService.pagination(pageable));
     }
 
     @GetMapping("/detail/{id}")
+    @Override
     public ResponseEntity<RestauranteDto> detail(@PathVariable Long id) {
         return ResponseEntity.ok(restauranteService.detail(id));
     }
 
     @GetMapping("/search")
+    @Override
     public ResponseEntity<List<RestauranteDto>> searchList(@RequestParam String nome) {
         return ResponseEntity.ok(restauranteService.search(nome));
     }
 
     @GetMapping("/search/pagination")
+    @Override
     public ResponseEntity<Page<RestauranteDto>> searchPagination(@RequestParam String nome, Pageable pageable) {
         return ResponseEntity.ok(restauranteService.searchPagination(nome, pageable));
     }

@@ -1,6 +1,7 @@
 package org.estudos.algafoods.produto;
 
 import jakarta.persistence.*;
+import org.estudos.algafoods.restaurante.Restaurante;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -20,6 +21,13 @@ public class Produto {
     private BigDecimal preco;
 
     private Boolean ativo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
+
+    public Restaurante getRestaurante() { return restaurante; }
+    public void setRestaurante(Restaurante restaurante) { this.restaurante = restaurante; }
 
     public Long getId() {
         return id;
