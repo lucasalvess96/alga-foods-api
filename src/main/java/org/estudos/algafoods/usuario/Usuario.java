@@ -13,14 +13,16 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome_usuario", nullable = false, length = 800)
     private String nome;
 
+    @Column(name = "email", nullable = false, length = 255)
     private String email;
 
-    private String senha;
-
+    @Column(name = "data_cadastro", nullable = false)
     private LocalDate dataCadastro;
 
+    @Column(name = "data_atualizacao", nullable = false)
     private LocalDate dataAtualizacao;
 
     public Long getId() {
@@ -36,7 +38,7 @@ public class Usuario {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome == null ? null : nome.trim().toUpperCase();
     }
 
     public String getEmail() {
@@ -45,14 +47,6 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public LocalDate getDataCadastro() {
@@ -89,7 +83,6 @@ public class Usuario {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
                 ", dataCadastro=" + dataCadastro +
                 ", dataAtualizacao=" + dataAtualizacao +
                 '}';
