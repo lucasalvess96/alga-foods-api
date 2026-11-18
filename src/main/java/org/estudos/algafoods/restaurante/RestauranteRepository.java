@@ -18,6 +18,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
 
     @Query("""
             SELECT r FROM Restaurante r WHERE (:nome IS NULL OR LOWER(r.nome) LIKE LOWER(CONCAT('%', :nome, '%')))
+                        AND (:ativo IS NULL OR r.ativo = :ativo)
             """)
-    Page<Restaurante> buscarRestaurantes(@Param("nome") String nome, Pageable pageable);
+    Page<Restaurante> buscarRestaurantes(@Param("nome") String nome, @Param("ativo") Boolean ativo, Pageable pageable);
 }
