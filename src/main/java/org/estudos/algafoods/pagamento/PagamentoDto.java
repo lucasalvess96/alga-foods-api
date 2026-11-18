@@ -9,7 +9,7 @@ public record PagamentoDto(
         @Schema(description = "ID da forma de pagamento", example = "1")
         Long id,
 
-        @Schema(description = "Descrição da forma de pagamento", example = "Cartão de crédito")
+        @Schema(description = "Descrição da forma de pagamento", example = "Pix")
         @NotBlank
         @Size(max = 255, message = "A descrição da forma de pagamento deve ter no máximo 255 caracteres")
         String descricao
