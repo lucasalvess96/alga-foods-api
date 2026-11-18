@@ -12,15 +12,42 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "cep", nullable = false, length = 8)
     private String cep;
 
+    @Column(name = "logradouro", nullable = false)
     private String logradouro;
 
+    @Column(name = "numero", nullable = false, length = 10)
     private String numero;
 
+    @Column(name = "complemento", length = 100)
     private String complemento;
 
+    @Column(name = "bairro", nullable = false, length = 100)
     private String bairro;
+
+    @Column(name = "cidade", nullable = false, length = 100)
+    private String cidade;
+
+    @Column(name = "estado", nullable = false, length = 2, columnDefinition = "CHAR(2)")
+    private String estado;
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public Long getId() {
         return id;
