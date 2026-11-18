@@ -28,16 +28,16 @@ public class UsuarioService {
         usuario.setEmail(dto.email());
         usuario.setDataCadastro(LocalDate.now());
         usuario.setDataAtualizacao(usuario.getDataCadastro());
-        return UsuarioConverter.toDto(usuarioRepository.save(usuario));
+        return UsuarioConverter.toUsuarioDto(usuarioRepository.save(usuario));
     }
 
     public UsuarioDto consultar(Long usuarioId) {
-        return UsuarioConverter.toDto(buscarUsuario(usuarioId));
+        return UsuarioConverter.toUsuarioDto(buscarUsuario(usuarioId));
     }
 
     public List<UsuarioDto> listarResponsaveis(Long restauranteId) {
         return restauranteService.buscarRestaurante(restauranteId).getResponsaveis().stream()
-                .map(UsuarioConverter::toDto).toList();
+                .map(UsuarioConverter::toUsuarioDto).toList();
     }
 
     @Transactional
