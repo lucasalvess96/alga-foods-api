@@ -2,6 +2,12 @@ spring:
   application:
     name: alga-foods-api
 
+  session:
+    timeout: 180m
+    jdbc:
+      initialize-schema: always
+      platform: sqlserver
+
   # datasource
   datasource:
     url: jdbc:sqlserver://LUCAS-ALVES:1433;databaseName=AlgaFoods;encrypt=false
