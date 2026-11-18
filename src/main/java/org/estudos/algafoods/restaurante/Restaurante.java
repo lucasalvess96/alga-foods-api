@@ -19,63 +19,51 @@ import java.util.Objects;
 @Table(name = "restaurante", schema = "foods")
 public class Restaurante {
 
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Produto> produtos = new ArrayList<>();
-    @ManyToMany
-    @JoinTable(name = "restaurante_pagamento", schema = "foods",
-            joinColumns = @JoinColumn(name = "restaurante_id"),
-            inverseJoinColumns = @JoinColumn(name = "pagamento_id"))
-    private final List<Pagamento> formasPagamento = new ArrayList<>();
-    @ManyToMany
-    @JoinTable(name = "restaurante_responsavel", schema = "foods",
-            joinColumns = @JoinColumn(name = "restaurante_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-    private final List<Usuario> responsaveis = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "nome", nullable = false)
     private String nome;
+
     @Column(name = "taxa_frete", nullable = false, precision = 10, scale = 2)
     private BigDecimal taxaFrete;
+
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
+
+    @Column(name = "aberto", nullable = false)
+    private Boolean aberto = false;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime dataCadastro;
+
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime dataAtualizacao;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    private Cozinha cozinha;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "endereco_id", unique = true)
     private Endereco endereco;
 
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
+    @ManyToOne(optional = false)
+    private Cozinha cozinha;
 
-    public void adicionarProduto(Produto produto) {
-        produtos.add(produto);
-        produto.setRestaurante(this);
-    }
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Produto> produtos = new ArrayList<>();
 
-    public List<Pagamento> getFormasPagamento() {
-        return formasPagamento;
-    }
+    @ManyToMany
+    @JoinTable(name = "restaurante_pagamento", schema = "foods",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "pagamento_id"))
+    private List<Pagamento> formasPagamento = new ArrayList<>();
 
-    public List<Usuario> getResponsaveis() {
-        return responsaveis;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+    @ManyToMany
+    @JoinTable(name = "restaurante_responsavel", schema = "foods",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private List<Usuario> responsaveis = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -90,7 +78,7 @@ public class Restaurante {
     }
 
     public void setNome(String nome) {
-        this.nome = nome == null ? null : nome.trim().toUpperCase();
+        this.nome = nome;
     }
 
     public BigDecimal getTaxaFrete() {
@@ -109,6 +97,14 @@ public class Restaurante {
         this.ativo = ativo;
     }
 
+    public Boolean getAberto() {
+        return aberto;
+    }
+
+    public void setAberto(Boolean aberto) {
+        this.aberto = aberto;
+    }
+
     public LocalDateTime getDataCadastro() {
         return dataCadastro;
     }
@@ -125,12 +121,44 @@ public class Restaurante {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
     public Cozinha getCozinha() {
         return cozinha;
     }
 
     public void setCozinha(Cozinha cozinha) {
         this.cozinha = cozinha;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    public List<Pagamento> getFormasPagamento() {
+        return formasPagamento;
+    }
+
+    public void setFormasPagamento(List<Pagamento> formasPagamento) {
+        this.formasPagamento = formasPagamento;
+    }
+
+    public List<Usuario> getResponsaveis() {
+        return responsaveis;
+    }
+
+    public void setResponsaveis(List<Usuario> responsaveis) {
+        this.responsaveis = responsaveis;
     }
 
     @Override
