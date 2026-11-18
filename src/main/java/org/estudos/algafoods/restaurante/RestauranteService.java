@@ -1,13 +1,13 @@
 package org.estudos.algafoods.restaurante;
 
+import jakarta.persistence.EntityManager;
 import org.estudos.algafoods.excecao.ResourceNotFoundException;
+import org.estudos.algafoods.pagamento.Pagamento;
+import org.estudos.algafoods.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.persistence.EntityManager;
-import org.estudos.algafoods.pagamento.Pagamento;
-import org.estudos.algafoods.usuario.Usuario;
 
 import java.util.List;
 
@@ -77,5 +77,10 @@ public class RestauranteService {
 
     public Page<RestauranteDto> searchPagination(String nome, Pageable pageable) {
         return restauranteRepository.findByNomeContainingIgnoreCase(nome, pageable).map(RestauranteConverter::toRestauranteDto);
+    }
+
+    public Page<RestauranteDto> restaurantes(RestauranteFiltro filtro, Pageable pageable) {
+        return restauranteRepository.buscarRestaurantes(filtro.nome(), pageable)
+                .map(RestauranteConverter::toRestauranteDto);
     }
 }
