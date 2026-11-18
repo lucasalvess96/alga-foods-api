@@ -14,20 +14,29 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 
+    @Column(name = "descricao", nullable = false, length = 255)
     private String descricao;
 
+    @Column(name = "preco", nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
 
+    @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
-    public Restaurante getRestaurante() { return restaurante; }
-    public void setRestaurante(Restaurante restaurante) { this.restaurante = restaurante; }
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
 
     public Long getId() {
         return id;
