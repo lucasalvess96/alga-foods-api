@@ -45,7 +45,7 @@ class RestauranteServiceTest {
         cozinha = new Cozinha();
         cozinha.setNome("Brasileira");
 
-        filtro = new RestauranteFiltro("RESTAURANTE TESTE");
+        filtro = new RestauranteFiltro("RESTAURANTE TESTE", true);
 
         pageRequest = PageRequest.of(0, 10);
     }
@@ -55,13 +55,13 @@ class RestauranteServiceTest {
     void restaurantes() {
         PageImpl<Restaurante> pagina = new PageImpl<>(List.of(restaurante), pageRequest, 1);
 
-        when(restauranteRepository.buscarRestaurantes(filtro.nome(), pageRequest)).thenReturn(pagina);
+        when(restauranteRepository.buscarRestaurantes(filtro.nome(), filtro.ativo(), pageRequest)).thenReturn(pagina);
 
         Page<RestauranteDto> resultado = restauranteService.restaurantes(filtro, pageRequest);
 
         assertEquals(1, resultado.getTotalElements());
         assertEquals(1L, resultado.getContent().getFirst().id());
         assertEquals("RESTAURANTE TESTE", resultado.getContent().getFirst().nome());
-        verify(restauranteRepository).buscarRestaurantes(filtro.nome(), pageRequest);
+        verify(restauranteRepository).buscarRestaurantes(filtro.nome(), filtro.ativo(), pageRequest);
     }
 }
