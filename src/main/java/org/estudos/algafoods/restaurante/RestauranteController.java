@@ -1,6 +1,5 @@
 package org.estudos.algafoods.restaurante;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,6 @@ public class RestauranteController implements RestauranteSwagger {
     }
 
     @PostMapping("/create")
-    @Transactional
     @Override
     public ResponseEntity<RestauranteDto> create(@RequestBody @Valid RestauranteDto restauranteDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restauranteService.create(restauranteDto));
