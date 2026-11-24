@@ -1,6 +1,7 @@
 package org.estudos.algafoods.restaurante;
 
 import org.estudos.algafoods.cozinha.Cozinha;
+import org.estudos.algafoods.endereco.Endereco;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,13 +24,9 @@ class RestauranteServiceTest {
 
     @Mock
     private RestauranteRepository restauranteRepository;
-    @Mock
     private Restaurante restaurante;
-    @Mock
     private Cozinha cozinha;
-    @Mock
     private RestauranteFiltro filtro;
-    @Mock
     private PageRequest pageRequest;
 
     @InjectMocks
@@ -37,13 +34,14 @@ class RestauranteServiceTest {
 
     @BeforeEach
     void setUp() {
+        cozinha = new Cozinha();
+        cozinha.setNome("Brasileira");
+
         restaurante = new Restaurante();
         restaurante.setId(1L);
         restaurante.setNome("RESTAURANTE TESTE");
         restaurante.setCozinha(cozinha);
-
-        cozinha = new Cozinha();
-        cozinha.setNome("Brasileira");
+        restaurante.setEndereco(new Endereco());
 
         filtro = new RestauranteFiltro("RESTAURANTE TESTE", true);
 
