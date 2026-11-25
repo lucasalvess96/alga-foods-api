@@ -1,11 +1,31 @@
 package org.estudos.algafoods.suporte;
 
+import org.estudos.algafoods.cozinha.Cozinha;
+import org.estudos.algafoods.cozinha.CozinhaDto;
 import org.estudos.algafoods.endereco.Endereco;
 import org.estudos.algafoods.endereco.EnderecoDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DadosTeste {
 
     private DadosTeste() {
+    }
+
+    public static Cozinha cozinha() {
+        Cozinha cozinha = new Cozinha();
+        cozinha.setId(1L);
+        cozinha.setNome("Brasileira");
+        return cozinha;
+    }
+
+    public static CozinhaDto cozinhaDto() {
+        return new CozinhaDto(1L, "Brasileira");
+    }
+
+    public static List<CozinhaDto> cozinhas() {
+        return new ArrayList<>(List.of(cozinhaDto(), new CozinhaDto(2L, "Italiana")));
     }
 
     public static Endereco endereco() {
