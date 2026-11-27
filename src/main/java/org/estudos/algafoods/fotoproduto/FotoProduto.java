@@ -1,6 +1,7 @@
 package org.estudos.algafoods.fotoproduto;
 
 import jakarta.persistence.*;
+import org.estudos.algafoods.produto.Produto;
 
 import java.util.Objects;
 
@@ -12,13 +13,40 @@ public class FotoProduto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "descricao")
     private String descricao;
 
+    @Column(name = "content_type")
     private String contentType;
 
+    @Column(name = "tamanho")
     private Long tamanho;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "produto_id", nullable = false, unique = true)
+    private Produto produto;
+
+    @Column(name = "chave_objeto", nullable = false, length = 512)
+    private String chaveObjeto;
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public String getChaveObjeto() {
+        return chaveObjeto;
+    }
+
+    public void setChaveObjeto(String chaveObjeto) {
+        this.chaveObjeto = chaveObjeto;
+    }
 
     public Long getId() {
         return id;
