@@ -1,0 +1,67 @@
+services:
+  alga-foods:
+    container_name: alga-foods
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:sqlserver://host.docker.internal:1433;databaseName=AlgaFoods;encrypt=false}
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:?Defina MINIO_ACCESS_KEY no .env}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:?Defina MINIO_SECRET_KEY no .env}
+      MINIO_BUCKET: ${MINIO_BUCKET:-alga-foods}
+    depends_on:
+      minio-init:
+        condition: service_completed_successfully
+
+  minio:
+    image: alga-foods-minio:local
+    build:
+      context: ./docker/minio
+      target: server
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:?Defina MINIO_ACCESS_KEY no .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:?Defina MINIO_SECRET_KEY no .env}
+    volumes:
+      - minio-data:/data
+
+  minio-init:
+    image: alga-foods-minio-client:local
+    build:
+      context: ./docker/minio
+      target: client
+    depends_on:
+      - minio
+    restart: "no"
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:?Defina MINIO_ACCESS_KEY no .env}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:?Defina MINIO_SECRET_KEY no .env}
+      MINIO_BUCKET: ${MINIO_BUCKET:-alga-foods}
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - |
+        tentativa=0
+        until mc alias set local http://minio:9000 "$$MINIO_ACCESS_KEY" "$$MINIO_SECRET_KEY"; do
+          tentativa=$$((tentativa + 1))
+          if [ "$$tentativa" -ge 30 ]; then
+            echo "MinIO indisponivel apos 30 tentativas."
+            exit 1
+          fi
+          sleep 2
+        done
+        mc mb --ignore-existing "local/$$MINIO_BUCKET"
+        mc anonymous set none "local/$$MINIO_BUCKET"
+        mc stat "local/$$MINIO_BUCKET"
+
+volumes:
+  minio-data:
